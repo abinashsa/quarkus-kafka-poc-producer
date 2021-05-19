@@ -13,7 +13,7 @@ import org.reactivestreams.Publisher;
 @Path("/bloodpressure")
 public class BloodPressure {
 
-	
+	//Events are being read from the memory stream 
 
 	@Inject
     @Channel("blood-pressure-stream") Publisher<String> bloodpressure; 

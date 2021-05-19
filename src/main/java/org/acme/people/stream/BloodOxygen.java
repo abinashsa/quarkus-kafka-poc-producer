@@ -15,7 +15,7 @@ import org.reactivestreams.Publisher;
 public class BloodOxygen {
 
 	// getting values from in memory stream
-   @Inject
+    @Inject
     @Channel("blood-oxygen-stream") Publisher<String> bloodoxygen; 
 
     @GET

@@ -11,24 +11,34 @@ import io.reactivex.Flowable;
 @ApplicationScoped
 public class VitalsGenerator {
 
-	// Sending to topic 
+	//Publisher Sending messages to the kafka topic 
     @Outgoing("generated-heart-name")           
     public Flowable<String> generate() {  
         return Flowable.interval(5, TimeUnit.SECONDS)
-                .map(tick -> NameGenerator.generate());
+        		 .map(tick -> {
+                     int number = (int)Math.floor((Math.random()*(60)+60));
+                    return  NameGenerator.generate() +": Heart Rate : "+ number;
+           
+        		 });
     }
     
     
     @Outgoing("generated-blood-name")           
     public Flowable<String> generateBloodPressure() {  
         return Flowable.interval(5, TimeUnit.SECONDS)
-                .map(tick -> "blood pressure random name");
+                .map(tick -> {
+                    int number = (int)Math.floor((Math.random()*(60)+120));
+                   return  NameGenerator.generate() +": Blood Pressure  : "+  number;
+                });
     }
     
     @Outgoing("generated-blood-oxygen-name")           
     public Flowable<String> generateBloodOxygen() {  
         return Flowable.interval(5, TimeUnit.SECONDS)
-                .map(tick -> "blood oxygen random name");
+        		 .map(tick -> {
+                     int number = (int)Math.floor((Math.random()*(10)+90));
+                    return  NameGenerator.generate() +": Blood oxygen : "+  number;
+                 });
     }
 
 }

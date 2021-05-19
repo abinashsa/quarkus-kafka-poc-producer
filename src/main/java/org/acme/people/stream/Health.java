@@ -18,23 +18,21 @@ public class Health {
     @Outgoing("heart-rate-stream")      
     @Broadcast                       
     public String process(String name) {
-        int honorific = (int)Math.floor((Math.random()*(29)+72));
-        return  name +" Heart Rate : "+honorific;
+        
+        return name ;
     }
     
     @Incoming("bloodoxygen")               
     @Outgoing("blood-oxygen-stream")      
     @Broadcast                       
     public String processtwo(String name) {
-        int honorific = (int)Math.floor((Math.random()*(60)+110));
-        return  name +" Blood Oxygen  : "+honorific;
+        return   name;
     }
     @Incoming("bloodpressure")               
     @Outgoing("blood-pressure-stream")      
     @Broadcast                       
     public String processthree(String name) {
-        int honorific = (int)Math.floor((Math.random()*(5)+90));
-        return  name +" : Blood Pressure  : "+honorific+"%";
+        return name ;
     }
   
 }

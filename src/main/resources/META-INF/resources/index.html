@@ -121,7 +121,7 @@ var source = new EventSource("/heartrate/stream");
             newTags.push({"key": tag.key, "value": tag.value});
         });
 
-        newTags.push({"key": event.data, "value": val});
+       
 
         newTags = newTags.sort(function(a, b) {
             return b.value - a.value;
