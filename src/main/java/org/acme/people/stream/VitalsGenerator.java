@@ -1,44 +1,35 @@
 package org.acme.people.stream;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+
+import java.util.Random;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 
-import io.reactivex.Flowable;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.reactive.messaging.kafka.Record;
 
 @ApplicationScoped
 public class VitalsGenerator {
 
+	private Random random = new Random();
+	
+	
 	//Publisher Sending messages to the kafka topic 
-    @Outgoing("generated-heart-name")           
-    public Flowable<String> generate() {  
-        return Flowable.interval(5, TimeUnit.SECONDS)
+    @Outgoing("heartrate")           
+    public Multi<Record<String, Integer>> generate() {  
+        return Multi.createFrom().ticks().every(Duration.ofSeconds(10)).onOverflow().drop()
         		 .map(tick -> {
-                     int number = (int)Math.floor((Math.random()*(60)+60));
-                    return  NameGenerator.generate() +": Heart Rate : "+ number;
-           
+        			 String name =NameGenerator.generate();
+        			 Integer heartrate =random.nextInt(120);
+                     System.err.println(name+" "+heartrate);
+                     return Record.of(name, heartrate);
         		 });
     }
     
     
-    @Outgoing("generated-blood-name")           
-    public Flowable<String> generateBloodPressure() {  
-        return Flowable.interval(5, TimeUnit.SECONDS)
-                .map(tick -> {
-                    int number = (int)Math.floor((Math.random()*(60)+120));
-                   return  NameGenerator.generate() +": Blood Pressure  : "+  number;
-                });
-    }
-    
-    @Outgoing("generated-blood-oxygen-name")           
-    public Flowable<String> generateBloodOxygen() {  
-        return Flowable.interval(5, TimeUnit.SECONDS)
-        		 .map(tick -> {
-                     int number = (int)Math.floor((Math.random()*(10)+90));
-                    return  NameGenerator.generate() +": Blood oxygen : "+  number;
-                 });
-    }
+   
 
 }
